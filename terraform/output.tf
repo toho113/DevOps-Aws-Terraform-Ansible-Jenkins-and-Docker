@@ -17,3 +17,7 @@ output "jenkins_ip" {
 output "web_ip" {
   value = aws_instance.web.public_ip
 }
+
+output "web_priv_ip" {
+  value = aws_instance.web.private_ip
+}
