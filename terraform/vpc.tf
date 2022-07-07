@@ -70,6 +70,15 @@ resource "aws_security_group" "jenkins_sg" {
     #ipv6_cidr_blocks = [aws_vpc.devops_vpc.ipv6_cidr_block]
   }
 
+  ingress {
+    description      = "Jenkins port from anywhere"
+    from_port        = 8080
+    to_port          = 8080
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -104,6 +113,15 @@ resource "aws_security_group" "web_sg" {
     protocol         = "tcp"
     cidr_blocks      = [aws_subnet.jenkins_subnet.cidr_block]
     #ipv6_cidr_blocks = aws_subnet.jenkins_subnet.ipv6_cidr_blocks
+  }
+
+  ingress {
+    description      = "Allow SSH From Admin"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = [var.admin_cidr]
+    #ipv6_cidr_blocks = [aws_vpc.devops_vpc.ipv6_cidr_block]
   }
 
   egress {
